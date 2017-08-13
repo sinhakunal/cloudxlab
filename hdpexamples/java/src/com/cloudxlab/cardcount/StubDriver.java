@@ -26,7 +26,7 @@ public class StubDriver {
 		// }
 
 		JobConf conf = new JobConf();
-		Job job = new Job(conf, "wordcount");
+		Job job = new Job(conf, "cardcount");
 		//or simply:
 		// Job job = Job.getInstance();
 
@@ -63,12 +63,12 @@ public class StubDriver {
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(LongWritable.class);
 
-		FileInputFormat.addInputPath(job, new Path("/data/mr/wordcount/input/big.txt"));
-		FileOutputFormat.setOutputPath(job, new Path("javamrout"));
+		//FileInputFormat.addInputPath(job, new Path("/data/mr/wordcount/input/big.txt"));
+		//FileOutputFormat.setOutputPath(job, new Path("javamrout"));
 
 		//To avoid hardcoding, you can take the values from command line args
-		// FileInputFormat.addInputPath(job, new Path(args[1]));
-		// FileOutputFormat.setOutputPath(job, new Path(args[2]));
+		FileInputFormat.addInputPath(job, new Path(args[1]));
+		FileOutputFormat.setOutputPath(job, new Path(args[2]));
 		boolean result = job.waitForCompletion(true);
 		System.exit(result ? 0 : 1);
 	}

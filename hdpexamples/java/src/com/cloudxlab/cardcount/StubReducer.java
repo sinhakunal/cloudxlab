@@ -7,10 +7,12 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class StubReducer extends Reducer<Text, LongWritable, Text, LongWritable> {
+import com.cloudxlab.cardcount.datamodel.Card;
+
+public class StubReducer extends Reducer<IntWritable, LongWritable, Text, LongWritable> {
 
   @Override
-  public void reduce(Text key, Iterable<LongWritable> values, Context context)
+  public void reduce(IntWritable key, Iterable<LongWritable> values, Context context)
       throws IOException, InterruptedException {
 
 	  long sum = 0;
@@ -18,6 +20,6 @@ public class StubReducer extends Reducer<Text, LongWritable, Text, LongWritable>
 	  {
 		  sum += iw.get();
 	  }
-	  context.write(key, new LongWritable(sum));
+	  context.write(new Text(Card.getSuitAsString(key.get())), new LongWritable(sum));
   }
 }

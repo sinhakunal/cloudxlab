@@ -1,17 +1,32 @@
 package com.cloudxlab.cardcount.datamodel;
 
 public class Card {
-	   public final static int SPADES = 0;   // Codes for the 4 suits, plus Joker.
-	   public final static int HEARTS = 1;
-	   public final static int DIAMONDS = 2;
-	   public final static int CLUBS = 3;
-	   public final static int JOKER = 4;
+	   public final static int SPADES = 1;   // Codes for the 4 suits, plus Joker.
+	   public final static int HEARTS = 2;
+	   public final static int DIAMONDS = 3;
+	   public final static int CLUBS = 4;
+	   public final static int JOKER = 5;
 	   
 	   public final static int ACE = 1;      // Codes for the non-numeric cards.
 	   public final static int JACK = 11;    //   Cards 2 through 10 have their 
 	   public final static int QUEEN = 12;   //   numerical values for their codes.
 	   public final static int KING = 13;
 	   
+	   /**
+	    * Returns a String representation of the suit passed.
+	    * @return one of the strings "Spades", "Hearts", "Diamonds", "Clubs"
+	    * or "Joker".
+	    */
+	   public static String getSuitAsString(int suit) {
+	      switch ( suit ) {
+	      case SPADES:   return "Spades";
+	      case HEARTS:   return "Hearts";
+	      case DIAMONDS: return "Diamonds";
+	      case CLUBS:    return "Clubs";
+	      default:       return "Joker";
+	      }
+	   }
+
 	   /**
 	    * This card's suit, one of the constants SPADES, HEARTS, DIAMONDS,
 	    * CLUBS, or JOKER.  The suit cannot be changed after the card is
@@ -81,13 +96,7 @@ public class Card {
 	    * or "Joker".
 	    */
 	   public String getSuitAsString() {
-	      switch ( suit ) {
-	      case SPADES:   return "Spades";
-	      case HEARTS:   return "Hearts";
-	      case DIAMONDS: return "Diamonds";
-	      case CLUBS:    return "Clubs";
-	      default:       return "Joker";
-	      }
+	  	 return getSuitAsString(suit);
 	   }
 	   
 	   /**
@@ -117,6 +126,24 @@ public class Card {
 	         }
 	      }
 	   }
+
+	   /**
+	    * Returns true if number card, false otherwise
+	    */
+	   public boolean isNumberCard() {
+	      if (suit == JOKER)
+	         return false;
+	      else {
+	         switch ( value ) {
+	         case 1:  
+	         case 11:  
+	         case 12:  
+	         case 13:  return false;
+	         default:  return true;  
+	         }
+	      }
+	   }
+	   
 	   
 	   /**
 	    * Returns a string representation of this card, including both
