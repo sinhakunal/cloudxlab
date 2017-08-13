@@ -7,6 +7,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.Reducer.Context;
 
+//Kunal
 public class StubCombiner extends Reducer<Text, LongWritable, Text, LongWritable>
 {
 	@Override
