@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.ArrayWritable;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.JobConf;
@@ -65,6 +66,9 @@ public class StubDriver {
 		//before transferring data to reducer node
 		//job.setCombinerClass(StubCombiner.class);
 
+		job.setMapOutputKeyClass(IntWritable.class);
+		job.setMapOutputValueClass(LongWritable.class);
+		
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(LongWritable.class);
 
