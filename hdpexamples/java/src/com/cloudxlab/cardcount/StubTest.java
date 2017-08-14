@@ -26,9 +26,9 @@ public class StubTest {
 	 * Declare harnesses that let you test a mapper, a reducer, and a mapper and
 	 * a reducer working together.
 	 */
-	MapDriver<Object, List<Card>, IntWritable, LongWritable> mapDriver;
+	MapDriver<Object, Text, IntWritable, LongWritable> mapDriver;
 	ReduceDriver<IntWritable, LongWritable, Text, LongWritable> reduceDriver;
-	MapReduceDriver<Object, List<Card>, IntWritable, LongWritable, Text, LongWritable> mapReduceDriver;
+	MapReduceDriver<Object, Text, IntWritable, LongWritable, Text, LongWritable> mapReduceDriver;
 
 	/*
 	 * Set up the test. This method will be called before every test.
@@ -40,7 +40,7 @@ public class StubTest {
 		 * Set up the mapper test harness.
 		 */
 		StubMapper mapper = new StubMapper();
-		mapDriver = new MapDriver<Object, List<Card>, IntWritable, LongWritable>();
+		mapDriver = new MapDriver<Object, Text, IntWritable, LongWritable>();
 		mapDriver.setMapper(mapper);
 
 		/*
@@ -53,7 +53,7 @@ public class StubTest {
 		/*
 		 * Set up the mapper/reducer test harness.
 		 */
-		mapReduceDriver = new MapReduceDriver<Object, List<Card>, IntWritable, LongWritable, Text, LongWritable>();
+		mapReduceDriver = new MapReduceDriver<Object, Text, IntWritable, LongWritable, Text, LongWritable>();
 		mapReduceDriver.setMapper(mapper);
 		mapReduceDriver.setReducer(reducer);
 	}
@@ -63,26 +63,17 @@ public class StubTest {
 	 */
 	@Test
 	public void testMapper() {
-
-		/*
-		 * For this test, the mapper's input will be "1 cat cat dog" TODO:
-		 * implement
-		 */
-		List<Card> cards = new ArrayList<Card>();
-		cards.add(new Card(1, Card.HEARTS));
-		cards.add(new Card(10, Card.CLUBS));
-		cards.add(new Card(13, Card.CLUBS));
-		mapDriver.setInput("insignificant", cards);
+		mapDriver.setInput("insignificant", new Text(""+Card.CLUBS+",2"));
 		try {
 			List<Pair<IntWritable, LongWritable>> out = mapDriver.run();
 			assert(out.size()==1);
 			int suite = out.get(0).getFirst().get();
 			long value = out.get(0).getSecond().get();
 			assertEquals(Card.CLUBS, suite);
-			assertEquals(10, value);
+			assertEquals(2, value);
 		} catch(Exception e) {
-			fail("Exception");
 			e.printStackTrace();
+			fail("Exception");
 		}
 	}
 
@@ -123,27 +114,25 @@ public class StubTest {
 	@Test
 	public void testMapReduce() throws IOException {
 
-		List<Card> deck1 = new ArrayList<Card>();
-		deck1.add(new Card(1, Card.HEARTS));
-		deck1.add(new Card(10, Card.CLUBS));
-		deck1.add(new Card(13, Card.CLUBS));
+		StringBuffer deck1 = new StringBuffer();
+		deck1.append(new Card(Card.HEARTS, 10).getCSVOutput());
 
-		List<Card> deck2 = new ArrayList<Card>();
-		deck1.add(new Card(0, Card.JOKER));
-		deck1.add(new Card(8, Card.HEARTS));
-		deck1.add(new Card(7, Card.SPADES));
+		StringBuffer deck2 = new StringBuffer();
+		deck2.append(new Card(Card.JOKER, 0).getCSVOutput());
 
-		List<Card> deck3 = new ArrayList<Card>();
-		deck3.add(new Card(4, Card.DIAMONDS));
-		deck3.add(new Card(4, Card.DIAMONDS));
-		deck3.add(new Card(4, Card.HEARTS));
+		StringBuffer deck3 = new StringBuffer();
+		deck3.append(new Card(Card.DIAMONDS, 4).getCSVOutput());
 
-		mapReduceDriver.addInput(new Pair<Object, List<Card>>("deck1", deck1));
-		mapReduceDriver.addInput(new Pair<Object, List<Card>>("deck2", deck2));
-		mapReduceDriver.addInput(new Pair<Object, List<Card>>("deck3", deck3));
+		StringBuffer deck4 = new StringBuffer();
+		deck4.append(new Card(Card.DIAMONDS, 4).getCSVOutput());
+
+		mapReduceDriver.addInput(new Pair<Object, Text>("deck1", new Text(deck1.toString())));
+		mapReduceDriver.addInput(new Pair<Object, Text>("deck2", new Text(deck2.toString())));
+		mapReduceDriver.addInput(new Pair<Object, Text>("deck3", new Text(deck3.toString())));
+		mapReduceDriver.addInput(new Pair<Object, Text>("deck4", new Text(deck4.toString())));
 		List<Pair<Text, LongWritable>> output = mapReduceDriver.run();
 
-		assertEquals(4, output.size());
+		assertEquals(2, output.size());
 
 		for (Pair<Text, LongWritable> p : output) {
 			System.out.println(p.getFirst() + " - " + p.getSecond());

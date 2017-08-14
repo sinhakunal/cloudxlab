@@ -62,14 +62,14 @@ public class Card {
 	    * @throws IllegalArgumentException if the parameter values are not in the
 	    * permissible ranges
 	    */
-	   public Card(int theValue, int theSuit) {
+	   public Card(int theSuit, int theValue) {
 	      if (theSuit != SPADES && theSuit != HEARTS && theSuit != DIAMONDS && 
 	            theSuit != CLUBS && theSuit != JOKER)
 	         throw new IllegalArgumentException("Illegal playing card suit");
 	      if (theSuit != JOKER && (theValue < 1 || theValue > 13))
 	         throw new IllegalArgumentException("Illegal playing card value");
-	      value = theValue;
 	      suit = theSuit;
+	      value = theValue;
 	   }
 
 	   /**
@@ -161,5 +161,9 @@ public class Card {
 	      }
 	      else
 	         return getValueAsString() + " of " + getSuitAsString();
+	   }
+	   
+	   public String getCSVOutput () {
+	  	 return ""+suit+","+value;
 	   }
 }

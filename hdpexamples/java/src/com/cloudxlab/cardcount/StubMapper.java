@@ -5,22 +5,19 @@ import java.util.List;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import com.cloudxlab.cardcount.datamodel.Card;
 
-public class StubMapper extends Mapper<Object, List<Card>, IntWritable, LongWritable> {
+public class StubMapper extends Mapper<Object, Text, IntWritable, LongWritable> {
 
   @Override
-  public void map(Object key, List<Card> cards, Context context)
+  public void map(Object key, Text value, Context context)
       throws IOException, InterruptedException {
-
-	  //iterate over the cards
-	  for(Card card:cards)
-	  {
-	  	if(card.isNumberCard()) {
-	  		context.write(new IntWritable(card.getSuit()), new LongWritable(card.getValue()));
-	  	}
-	  }
+	  String[] card = value.toString().split(",");
+	  Card c = new Card(Integer.parseInt(card[0]), Integer.parseInt(card[1]));
+	  if(c.isNumberCard())
+	  	context.write(new IntWritable(c.getSuit()), new LongWritable(c.getValue()));
   }
 }
