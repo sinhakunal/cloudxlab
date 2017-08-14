@@ -26,7 +26,7 @@ public class StubDriver {
 		// }
 
 		JobConf conf = new JobConf();
-		Job job = new Job(conf, "cardcount");
+		Job job = new Job(conf, "cardcount"); 
 		//or simply:
 		// Job job = Job.getInstance();
 
