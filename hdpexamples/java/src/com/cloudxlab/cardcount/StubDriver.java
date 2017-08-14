@@ -1,5 +1,8 @@
 package com.cloudxlab.cardcount;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.ArrayWritable;
 import org.apache.hadoop.io.LongWritable;
@@ -25,6 +28,8 @@ public class StubDriver {
 		// 	System.exit(-1);
 		// }
 
+		Logger l = Logger.global;
+		
 		JobConf conf = new JobConf();
 		Job job = new Job(conf, "cardcount"); 
 		//or simply:
@@ -63,6 +68,8 @@ public class StubDriver {
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(LongWritable.class);
 
+		l.log(Level.INFO, "Set up done");
+		
 		//FileInputFormat.addInputPath(job, new Path("/data/mr/wordcount/input/big.txt"));
 		//FileOutputFormat.setOutputPath(job, new Path("javamrout"));
 
