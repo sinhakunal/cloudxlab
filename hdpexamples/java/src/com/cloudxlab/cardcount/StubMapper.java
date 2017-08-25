@@ -27,10 +27,10 @@ public class StubMapper extends Mapper<Object, Text, IntWritable, LongWritable> 
   	LOGGER.info("card"+card.toString()); System.out.println("card"+card.toString());
   	try {
   		Card c = new Card(Integer.parseInt(card[0]), Integer.parseInt(card[1]));
+  	  if(c.isNumberCard())
+  	  	context.write(new IntWritable(c.getSuit()), new LongWritable(c.getValue()));
   	} catch(IllegalArgumentException e) {
   		LOGGER.warn("Invalid Card");
   	}
-	  if(c.isNumberCard())
-	  	context.write(new IntWritable(c.getSuit()), new LongWritable(c.getValue()));
   }
 }
