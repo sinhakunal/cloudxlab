@@ -65,9 +65,9 @@ public class Card {
 	   public Card(int theSuit, int theValue) {
 	      if (theSuit != SPADES && theSuit != HEARTS && theSuit != DIAMONDS && 
 	            theSuit != CLUBS && theSuit != JOKER)
-	         throw new IllegalArgumentException("Illegal playing card suit");
+	         throw new IllegalArgumentException("Illegal playing card suit:" + theSuit);
 	      if (theSuit != JOKER && (theValue < 1 || theValue > 13))
-	         throw new IllegalArgumentException("Illegal playing card value");
+	         throw new IllegalArgumentException("Illegal playing card value:" + theValue + " for Suit:" + theSuit);
 	      suit = theSuit;
 	      value = theValue;
 	   }
