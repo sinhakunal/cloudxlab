@@ -14,7 +14,7 @@ import com.cloudxlab.cardcount.datamodel.Card;
 
 public class StubMapper extends Mapper<Object, Text, IntWritable, LongWritable> {
 
-	private static Logger LOGGER = Logger.getLogger(StubMapper.class.getName());
+	private static Logger LOGGER = Logger.global;
 	
   @Override
   public void map(Object key, Text value, Context context)
