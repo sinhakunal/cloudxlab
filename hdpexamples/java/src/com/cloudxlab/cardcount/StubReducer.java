@@ -16,9 +16,11 @@ public class StubReducer extends Reducer<IntWritable, LongWritable, Text, LongWr
       throws IOException, InterruptedException {
 
 	  long sum = 0;
-	  for(LongWritable iw:values)
-	  {
-		  sum += iw.get();
+	  if(key.get() != Card.JOKER) {
+		  for(LongWritable iw:values)
+		  {
+			  sum += iw.get();
+		  }
 	  }
 	  context.write(new Text(Card.getSuitAsString(key.get())), new LongWritable(sum));
   }
