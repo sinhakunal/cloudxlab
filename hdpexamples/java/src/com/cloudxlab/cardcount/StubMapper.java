@@ -25,7 +25,11 @@ public class StubMapper extends Mapper<Object, Text, IntWritable, LongWritable> 
   	LOGGER.info("value:" + value.toString()); System.out.println("value:" + value.toString());
 	  String[] card = value.toString().split(",");
   	LOGGER.info("card"+card.toString()); System.out.println("card"+card.toString());
-	  Card c = new Card(Integer.parseInt(card[0]), Integer.parseInt(card[1]));
+  	try {
+  		Card c = new Card(Integer.parseInt(card[0]), Integer.parseInt(card[1]));
+  	} catch(IllegalArgumentException e) {
+  		LOGGER.warn("Invalid Card");
+  	}
 	  if(c.isNumberCard())
 	  	context.write(new IntWritable(c.getSuit()), new LongWritable(c.getValue()));
   }
