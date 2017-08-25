@@ -10,7 +10,6 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import com.cloudxlab.cardcount.datamodel.Card;
-import com.sun.media.jfxmedia.logging.Logger;
 
 public class StubReducer extends Reducer<IntWritable, LongWritable, Text, LongWritable> {
 
