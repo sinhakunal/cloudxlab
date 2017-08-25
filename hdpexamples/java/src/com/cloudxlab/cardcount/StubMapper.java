@@ -20,17 +20,18 @@ public class StubMapper extends Mapper<Object, Text, IntWritable, LongWritable> 
   @Override
   public void map(Object key, Text value, Context context)
       throws IOException, InterruptedException {
-  	LOGGER.info("Entered map method"); System.out.println("Entered map method");
-  	LOGGER.info("key:" + key.toString()); System.out.println("key:" + key.toString());
-  	LOGGER.info("value:" + value.toString()); System.out.println("value:" + value.toString());
+  	LOGGER.info("Entered map method"); 
+  	LOGGER.info("key:" + key.toString());
+  	LOGGER.info("value:" + value.toString());
 	  String[] card = value.toString().split(",");
-  	LOGGER.info("card"+card.toString()); System.out.println("card"+card.toString());
+  	LOGGER.info("card"+card.toString());
   	try {
   		Card c = new Card(Integer.parseInt(card[0]), Integer.parseInt(card[1]));
   	  if(c.isNumberCard())
   	  	context.write(new IntWritable(c.getSuit()), new LongWritable(c.getValue()));
   	} catch(IllegalArgumentException e) {
   		LOGGER.warn("Invalid Card");
+  		LOGGER.warn(e);
   	}
   }
 }
